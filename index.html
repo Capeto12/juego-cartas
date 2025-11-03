@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memoria Aves</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🐦 Memoria Aves 🐦</h1>
+        <div class="game-info">
+            <p>Movimientos: <span id="moves">0</span></p>
+            <p>Pares encontrados: <span id="pairs">0</span>/5</p>
+            <button id="restart-btn">Reiniciar</button>
+        </div>
+        <div id="game-board" class="game-board"></div>
+        <div id="win-message" class="win-message hidden">
+            <h2>¡Felicitaciones! 🎉</h2>
+            <p>Has completado el juego en <span id="final-moves"></span> movimientos</p>
+            <button id="play-again-btn">Jugar de nuevo</button>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
