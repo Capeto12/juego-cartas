@@ -41,6 +41,8 @@
     .card img {
       width: 100%;
       border-radius: 8px;
+      max-height: 160px;
+      object-fit: cover;
     }
     .error {
       text-align: center;
@@ -63,41 +65,38 @@
 <script>
   async function loadCards() {
     try {
-      // ⭐ USAMOS TU RUTA REAL AQUÍ
+      // 👈 AQUÍ usamos tu ruta real
       const response = await fetch("content/content/birds/pack-1.json");
-
-      if (!response.ok) {
-        throw new Error("No se pudo cargar pack-1.json");
-      }
+      if (!response.ok) throw new Error("No se pudo cargar pack-1.json");
 
       const data = await response.json();
 
       const board = document.getElementById("board");
-      board.innerHTML = ""; 
+      board.innerHTML = "";
 
-      data.cards.forEach(card => {
+      data.assets.forEach(carta => {
         const div = document.createElement("div");
         div.className = "card";
 
-        // ⭐ Imagen usando TU path real
         const img = document.createElement("img");
-        img.src = "content/content/birds/img/" + card.image;
+        img.src = carta.image_url; // usamos lo que viene en el JSON
+        img.alt = carta.title;
 
         const name = document.createElement("p");
-        name.textContent = card.name;
+        name.textContent = carta.title;
 
         div.appendChild(img);
         div.appendChild(name);
         board.appendChild(div);
       });
-
-    } catch (err) {
-      document.getElementById("error").innerText =
-        "No se pudieron cargar las cartas. Verifica pack-1.json y las imágenes.";
+    } catch (e) {
+      console.error(e);
+      document.getElementById("error").textContent =
+        "No se pudieron cargar las cartas. Revisa pack-1.json y las imágenes.";
     }
   }
 
-  loadCards();
+  document.addEventListener("DOMContentLoaded", loadCards);
 </script>
 
 </body>
