@@ -64,22 +64,30 @@
 
 <script>
   async function loadCards() {
+    const errorBox = document.getElementById("error");
     try {
-      // 👈 AQUÍ usamos tu ruta real
-      const response = await fetch("content/content/birds/pack-1.json");
-      if (!response.ok) throw new Error("No se pudo cargar pack-1.json");
+      // Usa la ruta relativa tal como está el repo
+      const response = await fetch("./content/content/birds/pack-1.json");
+
+      if (!response.ok) {
+        throw new Error("HTTP " + response.status + " " + response.statusText);
+      }
 
       const data = await response.json();
 
       const board = document.getElementById("board");
       board.innerHTML = "";
 
+      if (!data.assets || !Array.isArray(data.assets)) {
+        throw new Error("El JSON no tiene 'assets' como arreglo");
+      }
+
       data.assets.forEach(carta => {
         const div = document.createElement("div");
         div.className = "card";
 
         const img = document.createElement("img");
-        img.src = carta.image_url; // usamos lo que viene en el JSON
+        img.src = carta.image_url;
         img.alt = carta.title;
 
         const name = document.createElement("p");
@@ -89,15 +97,18 @@
         div.appendChild(name);
         board.appendChild(div);
       });
+
+      errorBox.textContent = ""; // si todo va bien, limpiamos el error
     } catch (e) {
       console.error(e);
-      document.getElementById("error").textContent =
-        "No se pudieron cargar las cartas. Revisa pack-1.json y las imágenes.";
+      errorBox.textContent =
+        "Error al cargar las cartas: " + e.message;
     }
   }
 
   document.addEventListener("DOMContentLoaded", loadCards);
 </script>
+
 
 </body>
 </html>
